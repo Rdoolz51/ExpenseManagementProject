@@ -1,4 +1,4 @@
-package com.revature.Models;
+package com.revature.models;
 
 import javax.persistence.*;
 
@@ -20,6 +20,10 @@ public class User {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @ManyToOne
+    private Role role;
+
 
     public User() {
     }

@@ -38,8 +38,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     }
 
-    // This is allowing us to map the roles in our database to roles with authorized abilities in our application
-    // We need the name of the role for later to help us authorize who is accessing what
     private Collection<GrantedAuthority> mapRoleToAuthority(Role role) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 

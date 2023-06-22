@@ -27,22 +27,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        // First get the token from the request
+
         String token = getJWTFromRequest(request);
 
-        // Validate the token and get the username and set roles and such
+
         if (token != null && jwtGenerator.validateToken(token)){
-            // We can get the username from the token
+
             String username = jwtGenerator.getUsernameFromToken(token);
 
             System.out.println(username);
 
-            // How do we load the user by their username?
+
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
             System.out.println(userDetails.getAuthorities());
 
-            // Now I need a token to describe the user that is logged in and their permissions
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities()

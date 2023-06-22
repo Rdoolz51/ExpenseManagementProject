@@ -32,8 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User a = userDAO.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No User Found"));
-        // We need to return the user details object
-        // Username, Password, Authorities
+
         return (UserDetails) new User(a.getUsername(), a.getPassword(), mapRoleToAuthority(a.getRole()));
 
     }

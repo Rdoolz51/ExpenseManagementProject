@@ -16,15 +16,12 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
-
-    // How did we find the user in our other services?
-    // Pulled in the DAO and used that
+public class CustomerUserDetailsService implements UserDetailsService {
 
     private final UserDAO userDAO;
 
     @Autowired
-    public CustomUserDetailsService(UserDAO userDAO) {
+    public CustomerUserDetailsService(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
@@ -33,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User a = userDAO.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No User Found"));
 
-        return (UserDetails) new User(a.getUsername(), a.getPassword(), mapRoleToAuthority(a.getRole()));
+        return (UserDetails) new User(a.getUsername(), a.getPassword(), mapRoleToAuthority(a.getRole())); //This may be problem...remove userDetails if problem...
 
     }
 
@@ -46,3 +43,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     }
 }
+

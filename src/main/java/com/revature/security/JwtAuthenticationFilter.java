@@ -16,11 +16,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtGenerator jwtGenerator;
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final CustomerUserDetailsService customerUserDetailsService;
 
-    public JwtAuthenticationFilter(JwtGenerator jwtGenerator, CustomUserDetailsService customUserDetailsService) {
+    public JwtAuthenticationFilter(JwtGenerator jwtGenerator, CustomerUserDetailsService customerUserDetailsService) {
         this.jwtGenerator = jwtGenerator;
-        this.customUserDetailsService = customUserDetailsService;
+        this.customerUserDetailsService = customerUserDetailsService;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             System.out.println(username);
 
 
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = customerUserDetailsService.loadUserByUsername(username);
 
             System.out.println(userDetails.getAuthorities());
 

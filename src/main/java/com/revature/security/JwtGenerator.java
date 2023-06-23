@@ -29,13 +29,12 @@ public class JwtGenerator {
                 .setSubject(username)
                 .setIssuedAt(currentDate)
                 .setExpiration(expireDate)
-                .signWith(SignatureAlgorithm.HS512, secretKey)// We need a secret key which SHOULD NOT be shared, otherwise bad
+                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
 
         return token;
     }
 
-    // Validate an existing JWT
     public boolean validateToken(String token){
 
         try{

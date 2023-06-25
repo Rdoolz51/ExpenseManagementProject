@@ -3,7 +3,7 @@ package com.revature.services;
 import com.revature.Exceptions.ReimbursementNotFoundException;
 import com.revature.daos.ReimbursementDAO;
 import com.revature.daos.StatusDAO;
-import com.revature.daos.UserDAO;
+import com.revature.daos.PersonDAO;
 import com.revature.models.Reimbursement;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +15,14 @@ public class ReimbursementService {
 
     private final ReimbursementDAO reimbursementDAO;
 
-    private final UserDAO userDAO;
+    private final PersonDAO personDAO;
 
     private final StatusDAO statusDAO;
 
 
-    public ReimbursementService(ReimbursementDAO reimbursementDAO, UserDAO userDAO, StatusDAO statusDAO) {
+    public ReimbursementService(ReimbursementDAO reimbursementDAO, PersonDAO personDAO, StatusDAO statusDAO) {
         this.reimbursementDAO = reimbursementDAO;
-        this.userDAO = userDAO;
+        this.personDAO = personDAO;
         this.statusDAO = statusDAO;
 
 

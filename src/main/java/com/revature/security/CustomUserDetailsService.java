@@ -1,8 +1,8 @@
 package com.revature.security;
 
-import com.revature.daos.UserDAO;
+import com.revature.daos.PersonDAO;
+import com.revature.models.Person;
 import com.revature.models.Role;
-import com.revature.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,20 +21,20 @@ public class CustomUserDetailsService implements UserDetailsService {
     // How did we find the user in our other services?
     // Pulled in the DAO and used that
 
-    private final UserDAO userDAO;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public CustomUserDetailsService(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public CustomUserDetailsService(PersonDAO personDAO) {
+        this.personDAO = personDAO;
     }
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User a = userDAO.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No User Found"));
+        Person a = personDAO.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No User Found"));
         // We need to return the user details object
         // Username, Password, Authorities
-        return (UserDetails) new User(a.getUsername(), a.getPassword(), mapRoleToAuthority(a.getRole()));
+        return (UserDetails) new Person(a.getUsername(), a.getPassword(), mapRoleToAuthority(a.getRole()));
 
     }
 

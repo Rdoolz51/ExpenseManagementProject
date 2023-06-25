@@ -1,5 +1,6 @@
 package com.revature.models;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -11,20 +12,19 @@ public class Status {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "status_name", unique = true, nullable = false)
-    private String statusName;
-
-
-    public Status(int id, String statusName) {
-        this.id = id;
-        this.statusName = statusName;
-    }
-
-    public Status(String statusName) {
-        this.statusName = statusName;
-    }
+    @Column(unique = true, nullable = false)
+    private String name;
 
     public Status() {
+    }
+
+    public Status(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Status(String name) {
+        this.name = name;
     }
 
     public int getId() {
@@ -35,19 +35,12 @@ public class Status {
         this.id = id;
     }
 
-    public String getStatusName() {
-        return statusName;
+    public String getName() {
+        return name;
     }
 
-    public void setStatusName(String statusName) {
-        this.statusName = statusName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Status{" +
-                "id=" + id +
-                ", statusName='" + statusName + '\'' +
-                '}';
-    }
 }

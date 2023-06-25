@@ -1,16 +1,16 @@
 package com.revature.daos;
 
-import com.revature.models.User;
+import com.revature.models.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserDAO extends JpaRepository<User, Integer> {
+public interface PersonDAO extends JpaRepository<Person, Integer> {
 
 
-    Optional<User> findByUsername(String username);
+    Optional<Person> findByUsername(String username);
 
 
 }

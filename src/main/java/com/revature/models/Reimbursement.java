@@ -25,12 +25,12 @@ public class Reimbursement {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @JoinColumn(name = "person_fk", referencedColumnName = "person_id")
     @ManyToOne(targetEntity = Person.class)
-    private int personId;
+    @JoinColumn(name = "reimbursement_person_fk", referencedColumnName = "person_id")
+    private Person person;
 
-    @JoinColumn(name = "status_fk", referencedColumnName = "status_id")
     @ManyToOne(targetEntity = Status.class)
-    private int status_id;
+    @JoinColumn(name = "reimbursement_status_fk")
+    private Status status;
 
 }

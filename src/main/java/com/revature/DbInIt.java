@@ -6,6 +6,7 @@ import com.revature.daos.RoleDAO;
 import com.revature.daos.StatusDAO;
 import com.revature.models.Person;
 import com.revature.models.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +19,7 @@ public class DbInIt {
     RoleDAO roleDAO;
     StatusDAO statusDAO;
 
+    @Autowired
     public DbInIt(PersonDAO personDAO,
                   ReimbursementDAO reimbursementDAO,
                   RoleDAO roleDAO,
@@ -45,7 +47,8 @@ public class DbInIt {
                 roleDAO.save(role2);
 
                 //people table
-        Person person1 = new Person(1, "billy","james", "bjames85", "password", roleDAO.getByRoleByRoleTitle("Finance Manager"));
+        Person person1 = new Person(1, "billy","james", "bjames85", "password", roleDAO.findByRoleTitle("Finance Manager"));
+        personDAO.save(person1);
     }
 
 }

@@ -32,6 +32,7 @@ public class Person {
     private String password;
 
     @ManyToOne
+    @JoinColumn(name = "person_role_fk", referencedColumnName = "role_id", columnDefinition = "int default 1")
     private Role role;
 
 

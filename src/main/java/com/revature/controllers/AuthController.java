@@ -26,13 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("auth")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
-
     private final PersonDAO personDAO;
-
     private final RoleDAO roleDao;
-
     private final PasswordEncoder passwordEncoder;
-
     private final JwtGenerator jwtGenerator;
 
 
@@ -49,7 +45,7 @@ public class AuthController {
     public ResponseEntity<String> register(@RequestBody RegisterDTO registerDTO){
 
         if (personDAO.existsByUsername(registerDTO.getUsername())){
-            return new ResponseEntity<String>("Username is taken!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
 
         Person p = new Person();
@@ -58,7 +54,7 @@ public class AuthController {
         p.setUsername(registerDTO.getUsername());
         p.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
 
-        Role role = roleDao.getByName("Person");
+        Role role = roleDao.findByRoleTitle("Employee");
 
         p.setRole(role);
 

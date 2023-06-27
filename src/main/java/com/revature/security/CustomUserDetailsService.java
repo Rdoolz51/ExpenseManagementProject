@@ -1,8 +1,8 @@
 package com.revature.security;
 
-import com.revature.daos.PersonDAO;
-import com.revature.models.Person;
+import com.revature.daos.UserDAO;
 import com.revature.models.Role;
+import com.revature.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,30 +16,24 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomerUserDetailsService implements UserDetailsService {
 
-    // How did we find the user in our other services?
-    // Pulled in the DAO and used that
-
-    private final PersonDAO personDAO;
+    private final UserDAO userDAO;
 
     @Autowired
-    public CustomUserDetailsService(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public CustomerUserDetailsService(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Person a = personDAO.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No User Found"));
-        // We need to return the user details object
-        // Username, Password, Authorities
-        return (UserDetails) new Person(a.getUsername(), a.getPassword(), mapRoleToAuthority(a.getRole()));
+        User a = userDAO.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No User Found"));
+
+        return (UserDetails) new User(a.getUsername(), a.getPassword(), mapRoleToAuthority(a.getRole())); //This may be problem...remove userDetails if problem...
 
     }
 
-    // This is allowing us to map the roles in our database to roles with authorized abilities in our application
-    // We need the name of the role for later to help us authorize who is accessing what
     private Collection<GrantedAuthority> mapRoleToAuthority(Role role) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
@@ -49,3 +43,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     }
 }
+

@@ -1,10 +1,12 @@
 package com.revature.security;
 
-import com.revature.daos.UserDAO;
+import com.revature.daos.PersonDAO;
+import com.revature.models.Person;
 import com.revature.models.Role;
-import com.revature.models.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,21 +18,21 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class CustomerUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserDAO userDAO;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public CustomerUserDetailsService(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public CustomUserDetailsService(PersonDAO personDAO) {
+        this.personDAO = personDAO;
     }
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User a = userDAO.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No User Found"));
+        Person a = personDAO.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No Person Found"));
 
-        return (UserDetails) new User(a.getUsername(), a.getPassword(), mapRoleToAuthority(a.getRole())); //This may be problem...remove userDetails if problem...
+        return new User(a.getUsername(), a.getPassword(), mapRoleToAuthority(a.getRole()));
 
     }
 
@@ -41,6 +43,17 @@ public class CustomerUserDetailsService implements UserDetailsService {
 
         return grantedAuthorities;
 
+    }
+
+    public UserDetails loadUserByID(Authentication auth, int id) throws UsernameNotFoundException {
+        int authenticatedUserId = ((Person) auth.getPrincipal()).getId();
+        if (authenticatedUserId == id){
+            Person p = personDAO.findById(id).orElseThrow(() -> new UsernameNotFoundException("no User found with Id" + id));
+
+            return new User(p.getUsername(), p.getPassword(), mapRoleToAuthority(p.getRole()));
+        } else {
+            throw new UsernameNotFoundException("Access denied");
+        }
     }
 }
 

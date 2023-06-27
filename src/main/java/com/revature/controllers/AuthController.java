@@ -1,12 +1,12 @@
 package com.revature.controllers;
 
+import com.revature.daos.PersonDAO;
 import com.revature.daos.RoleDAO;
-import com.revature.daos.UserDAO;
 import com.revature.dto.AuthResponseDTO;
 import com.revature.dto.LoginDTO;
 import com.revature.dto.RegisterDTO;
+import com.revature.models.Person;
 import com.revature.models.Role;
-import com.revature.models.User;
 import com.revature.security.JwtGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
 
-    private final UserDAO userDao;
+    private final PersonDAO personDAO;
 
     private final RoleDAO roleDao;
 
@@ -37,9 +37,9 @@ public class AuthController {
 
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserDAO userDao, RoleDAO roleDao, PasswordEncoder passwordEncoder, JwtGenerator jwtGenerator) {
+    public AuthController(AuthenticationManager authenticationManager, PersonDAO personDAO, RoleDAO roleDao, PasswordEncoder passwordEncoder, JwtGenerator jwtGenerator) {
         this.authenticationManager = authenticationManager;
-        this.userDao = userDao;
+        this.personDAO = personDAO;
         this.roleDao = roleDao;
         this.passwordEncoder = passwordEncoder;
         this.jwtGenerator = jwtGenerator;
@@ -48,23 +48,23 @@ public class AuthController {
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDTO registerDTO){
 
-        if (userDao.existsByUsername(registerDTO.getUsername())){
+        if (personDAO.existsByUsername(registerDTO.getUsername())){
             return new ResponseEntity<String>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
 
-        User p = new User();
+        Person p = new Person();
         p.setFirstName(registerDTO.getFirstName());
         p.setLastName(registerDTO.getLastName());
         p.setUsername(registerDTO.getUsername());
         p.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
 
-        Role role = roleDao.getByName("User");
+        Role role = roleDao.getByName("Person");
 
         p.setRole(role);
 
-        userDao.save(p);
+        personDAO.save(p);
 
-        return new ResponseEntity<>("User successfully registered!", HttpStatus.CREATED);
+        return new ResponseEntity<>("Person successfully registered!", HttpStatus.CREATED);
 
     }
 

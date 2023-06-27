@@ -35,6 +35,5 @@ public class Person {
     private Role role;
 
 
-    public Person(String username, String password, Collection<GrantedAuthority> grantedAuthorities) {
-    }
+
 }

@@ -41,4 +41,9 @@ public class ReimbursementController {
         return reimbursementService.addReimbursement(reimbursement, token);
     }
 
+    @PutMapping("/{id}/aod")
+    public Reimbursement approveOrDeny(@PathVariable("id") int id, @RequestBody Status newStatus){
+        return reimbursementService.approveOrDeny(id, newStatus.getName());
+    }
+
 }

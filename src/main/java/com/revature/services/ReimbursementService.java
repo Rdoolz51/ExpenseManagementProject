@@ -53,6 +53,11 @@ public class ReimbursementService {
         }
     }
 
+    public Reimbursement approveOrDeny(int id, String newStatus){
+        Reimbursement reimbursement = reimbursementDAO.findById(id).orElseThrow();
+        reimbursement.setStatus(statusDAO.findByName(newStatus));
+        return reimbursementDAO.save(reimbursement);
+    }
     public Reimbursement updateReimbursement(Reimbursement r){
         return reimbursementDAO.save(r);
     }

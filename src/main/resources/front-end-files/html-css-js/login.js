@@ -1,7 +1,6 @@
 const url = "http://localhost:8080"
 
-// document.getElementById('loginBtn').onclick = login;
-document.getElementById('loginBtn').onkeydown("Enter") = login;
+document.getElementById('loginBtn').onclick = login;
 
 async function login() {
     
@@ -26,9 +25,11 @@ async function login() {
 
         console.log(data);
         console.log(parseJwt(data.accessToken));
+        document.cookie = data.accessToken;
 
         if(parseJwt(data.accessToken).Role === "Finance Manager"){
             //go to Manager page
+            window.location.href = "reimbursements.html"
         } else {
             //go to Employee page
             window.location.href = "reimbursements.html"

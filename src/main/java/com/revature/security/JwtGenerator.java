@@ -17,10 +17,11 @@ import java.util.Date;
 @Component
 public class JwtGenerator {
 
-    private SecretKey secretKey =  Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     @Autowired
     private PersonService personService;
-    public String generateToken(Authentication authentication){
+
+    public String generateToken(Authentication authentication) {
 
         String username = authentication.getName();
 
@@ -42,24 +43,27 @@ public class JwtGenerator {
         return token;
     }
 
-    public boolean validateToken(String token){
+    public boolean validateToken(String token) {
 
-        try{
+        try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new AuthenticationCredentialsNotFoundException("JWT token is expired or invalid");
         }
 
     }
 
-    public String getUsernameFromToken(String token){
+    public String getUsernameFromToken(String token) {
+        if (token != null && token.startsWith("Bearer")) {
+            token = token.substring(7);
+        }
 
-        Claims claims = Jwts.parser()
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
-
         return claims.getSubject();
     }
 }

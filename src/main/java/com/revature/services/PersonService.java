@@ -4,6 +4,7 @@ import com.revature.Exceptions.PersonNotFoundException;
 import com.revature.daos.RoleDAO;
 import com.revature.daos.PersonDAO;
 import com.revature.models.Person;
+import com.revature.models.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -30,7 +30,7 @@ public class Reimbursement {
     private Person person;
 
     @ManyToOne(targetEntity = Status.class)
-    @JoinColumn(name = "reimbursement_status_fk")
+    @JoinColumn(name = "reimbursement_status_fk", referencedColumnName = "status_id")
     private Status status;
 
 }

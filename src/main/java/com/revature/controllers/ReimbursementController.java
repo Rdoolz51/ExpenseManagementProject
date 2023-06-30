@@ -1,7 +1,9 @@
 package com.revature.controllers;
 
 import com.revature.models.Reimbursement;
+import com.revature.models.Status;
 import com.revature.services.ReimbursementService;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +37,8 @@ public class ReimbursementController {
     }
 
     @PostMapping
-    public Reimbursement addReimbursement(@RequestBody Reimbursement reimbursement) {
-        return reimbursementService.updateReimbursement(reimbursement);
+    public Reimbursement addReimbursement(@RequestBody Reimbursement reimbursement, @RequestHeader("Authorization") String token) {
+        return reimbursementService.addReimbursement(reimbursement, token);
     }
 
 }

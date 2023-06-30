@@ -19,7 +19,7 @@ public class DbInIt {
     RoleDAO roleDAO;
     StatusDAO statusDAO;
 
-    @Autowired
+//    @Autowired
     public DbInIt(PersonDAO personDAO,
                   ReimbursementDAO reimbursementDAO,
                   RoleDAO roleDAO,
